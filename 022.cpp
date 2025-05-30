@@ -1,3 +1,4 @@
+// https://school.programmers.co.kr/learn/courses/30/lessons/12912
 // 22. 두 정수 사이의 합 O(1)
 // 등차수열의 합공식
 #include <string>
