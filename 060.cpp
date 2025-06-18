@@ -23,7 +23,7 @@ int solution(int number, int limit, int power) {
     // 약수의 개수 미리 저장해두기
     vector<int> divisors(number+1, 0);
     for(int i=1; i<=number; ++i){       // O(n)
-        for(int j=i; j<=number; j+=i){  // O(n / i) => O(n log n)
+        for(int j=i; j<=number; j+=i){  // O(n / i) => O(log n)
             ++divisors[j];              // i의 배수에 약수의 개수 +1
         }
     }
