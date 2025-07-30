@@ -1,5 +1,6 @@
 #파일 제외
 test.cpp
+test.c
 
 #특정 폴더 안의 파일 전부 제외
 ./build/
