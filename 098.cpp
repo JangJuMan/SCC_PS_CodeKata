@@ -1,4 +1,4 @@
-// 98. 뒤에 있는 큰 수 찾기(오큰수, stack) / re
+// 98. 뒤에 있는 큰 수 찾기(오큰수, stack) / (re/re)
 // https://school.programmers.co.kr/learn/courses/30/lessons/154539
 #include <string>
 #include <vector>
