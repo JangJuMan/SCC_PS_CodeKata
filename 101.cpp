@@ -1,4 +1,4 @@
-// 101. 2개 이하로 다른 비트(bitmask) / re
+// 101. 2개 이하로 다른 비트(bitmask) / re(완료)
 // https://school.programmers.co.kr/learn/courses/30/lessons/77885
 #include <string>
 #include <vector>
@@ -6,23 +6,42 @@
 
 using namespace std;
 
-// 이게 제일 이해 잘되긴 하네
+/* 2트 */
 vector<long long> solution(vector<long long> numbers) {
     vector<long long> ans;
     for(long long n : numbers){
-        if(n & 1){
+        if(n & 1){  // 끝자리 1
             long long bits = 1;
-            while((n & bits) > 0){
+            while((n & bits) != 0){ // n의 bits 비트가 0일때까지 반복
                 bits <<= 1;
             }
-            ans.emplace_back(n + (bits >> 1));  // 짝수일 때도 동일하게 적용하기 위함(n + bits - (bits >> 1))
+            // 이 시점에서 bits 비트부터 01 패턴이 됨
+            ans.emplace_back(n + (bits >> 1));  // = n + bits - (bits >> 1)
         }
-        else{
+        else{       // 끝자리 0
             ans.emplace_back(n+1);
         }
     }
     return ans;
 }
+
+// // 이게 제일 이해 잘되긴 하네
+// vector<long long> solution(vector<long long> numbers) {
+//     vector<long long> ans;
+//     for(long long n : numbers){
+//         if(n & 1){
+//             long long bits = 1;
+//             while((n & bits) > 0){
+//                 bits <<= 1;
+//             }
+//             ans.emplace_back(n + (bits >> 1));  // 짝수일 때도 동일하게 적용하기 위함(n + bits - (bits >> 1))
+//         }
+//         else{
+//             ans.emplace_back(n+1);
+//         }
+//     }
+//     return ans;
+// }
 
 
 // gpt 왈. 이게 뭔말이지..?
