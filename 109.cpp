@@ -1,4 +1,4 @@
-// 109. 연속된 부분 수열의 합(슬라이딩 윈도우, 투포인터) / re
+// 109. 연속된 부분 수열의 합(슬라이딩 윈도우, 투포인터) / re(완료)
 // https://school.programmers.co.kr/learn/courses/30/lessons/178870#
 #include <string>
 #include <vector>
@@ -6,6 +6,33 @@
 
 using namespace std;
 
+/* 2트 */
+vector<int> solution(vector<int> sequence, int k) {
+    int n = sequence.size();
+    int left = 0, right = 0, sum = sequence[0];
+    vector<int> ans = {0, n-1};
+    
+    while(left <= right && right < n){
+        if(sum == k){
+            if((ans[1] - ans[0]) > (right - left)){
+                ans[0] = left;
+                ans[1] = right;
+            }
+            sum -= sequence[left++];
+        }
+        else if(sum < k){
+            if(++right < n){    // out of range 방지
+                sum += sequence[right];
+            }
+        }
+        else if(sum > k){
+            sum -= sequence[left++];
+        }
+    }
+    return ans;   
+}
+
+/* 1트 */
 vector<int> solution(vector<int> sequence, int k) {
     int n = sequence.size();
     int left = 0, right = 0;
