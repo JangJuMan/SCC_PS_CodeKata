@@ -1,4 +1,4 @@
-// 117. 마법의 엘리베이터(완전탐색 or Greedy) / re
+// 117. 마법의 엘리베이터(완전탐색 or Greedy) / re (2트 완료)
 // https://school.programmers.co.kr/learn/courses/30/lessons/148653#
 #include <string>
 #include <vector>
@@ -6,33 +6,63 @@
 
 using namespace std;
 
-/* greedy */
-int solution(int storey){
-    int ans = 0;
+/* 2트 */
+int solution(int storey) {
+    int ans=0;
+    
     while(storey > 0){
-        int digit = storey % 10;
-        if(digit < 5){
-            storey /= 10;
-            ans += digit;
-        }
-        else if(digit > 5){
-            storey = storey/10 + 1;
-            ans += (10 - digit);
-        }
-        else{   // digit == 5
-            int next = (storey/10) % 10;
-            if(next >= 5){
-                ans += 5;
-                storey = storey/10 + 1;
+        int num = storey % 10;
+        if(num == 5){
+            int next = (storey / 10) % 10;
+            if(next <= 4){
+                ans += num;
+                // storey -= num;  // 굳이 안빼도 됨
             }
-            else{   // next < 5
-                ans += 5;
-                storey /= 10;
+            else if(next >= 5){
+                ans += (10 - num);
+                storey += (10 - num);   // +10 해도 됨
             }
         }
+        else if(num <= 4){
+            ans += num;
+            // storey -= num; // 굳이 안빼도 됨
+        }
+        else if(num > 4){
+            ans += (10 - num);
+            storey += (10 - num);       // +10 해도 됨
+        }
+        storey /= 10;
     }
     return ans;
 }
+
+/* greedy(1트) */
+// int solution(int storey){
+//     int ans = 0;
+//     while(storey > 0){
+//         int digit = storey % 10;
+//         if(digit < 5){
+//             storey /= 10;
+//             ans += digit;
+//         }
+//         else if(digit > 5){
+//             storey = storey/10 + 1;
+//             ans += (10 - digit);
+//         }
+//         else{   // digit == 5
+//             int next = (storey/10) % 10;
+//             if(next >= 5){
+//                 ans += 5;
+//                 storey = storey/10 + 1;
+//             }
+//             else{   // next < 5
+//                 ans += 5;
+//                 storey /= 10;
+//             }
+//         }
+//     }
+//     return ans;
+// }
 
 
 /* broute force */
