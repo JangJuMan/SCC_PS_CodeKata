@@ -20,9 +20,9 @@ int solution(vector<vector<int>> data, int col, int row_begin, int row_end) {
     colToSort = col-1;
 
     sort(data.begin(), data.end(), comp);
-    // sort(data.begin(), data.end(), [col](auto a, auto b){
+    // sort(data.begin(), data.end(), [col](auto& a, auto& b){
     //    return (a[col-1] != b[col-1]) ? a[col-1] < b[col-1] : a[0] > b[0];
-    // });  // Lambda (느리네)
+    // });  // Lambda (& 안붙이니까 느리지..)
     
     int ans = 0;
     for(int i=row_begin; i<=row_end; i++){

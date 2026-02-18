@@ -1,4 +1,4 @@
-// 126. 광물캐기 (greedy) / re
+// 126. 광물캐기 (greedy) / re (2트 실패)
 // https://school.programmers.co.kr/learn/courses/30/lessons/172927
 #include <string>
 #include <vector>
@@ -6,59 +6,103 @@
 
 using namespace std;
 
-struct MineralChunk{
-    int dia, iron, stone;
+/* 2트 */
+struct Section{
+    int dia=0, iron=0, stone=0;
 };
 
-bool compareChunks(const MineralChunk& a, const MineralChunk& b){   // 내림차순 정렬
-    if(a.dia != b.dia){
-        return a.dia > b.dia;
-    }
-    if(a.iron != b.iron){
-        return a.iron > b.iron;
-    }
-    return a.stone > b.stone;
-}
-
 int solution(vector<int> picks, vector<string> minerals) {
-    int total_fatigue = 0;
-    int total_picks = picks[0] + picks[1] + picks[2];
+    vector<Section> sections;
+    int totalPick = picks[0] + picks[1] + picks[2];
     
-    vector<MineralChunk> chunks;
-    
-    // 1. 광물 묶음(chunk) 생성 
-    for(int i=0; i<minerals.size() && total_picks > 0; i+=5){
-        MineralChunk chunk = {0, 0, 0};
-        
-        for(int j=0; j<5 && i+j < minerals.size(); j++){
-            string mineral = minerals[i+j];
-            if(mineral == "diamond")    chunk.dia++;
-            else if(mineral == "iron")  chunk.iron++;
-            else if(mineral == "stone") chunk.stone++;
+    for(int i=0; i<minerals.size() && sections.size() < totalPick; i+=5){
+        Section s;
+        for(int j=0; j<5 && i+j<minerals.size(); j++){
+            if(minerals[i+j] == "diamond")    s.dia++;
+            else if(minerals[i+j] == "iron")  s.iron++;
+            else if(minerals[i+j] == "stone") s.stone++;    
         }
-        
-        chunks.emplace_back(chunk);
-        total_picks--;
+        sections.emplace_back(s);
     }
     
-    // 2. 비싼 광물 순으로 정렬
-    sort(chunks.begin(), chunks.end(), compareChunks);
+    sort(sections.begin(), sections.end(), [](const auto& a, const auto& b){
+        if(a.dia != b.dia)  return a.dia > b.dia;
+        else if(a.iron != b.iron)   return a.iron > b.iron;
+        return a.stone > b.stone;
+    });
     
-    // 3. 곡괭이 배정 및 피로도 계산
-    for(const auto& chunk : chunks){
-        if(picks[0] > 0){   // 다이아 곡괭이
-            total_fatigue += chunk.dia * 1 + chunk.iron * 1 + chunk.stone * 1;
+    int ans=0;
+    for(const auto& s : sections){
+        if(picks[0] > 0){
+            ans += s.dia + s.iron + s.stone;
             picks[0]--;
         }
-        else if(picks[1] > 0){  // 철 곡괭이
-            total_fatigue += chunk.dia * 5 + chunk.iron * 1 + chunk.stone * 1;
+        else if(picks[1] > 0){
+            ans += s.dia*5 + s.iron + s.stone;
             picks[1]--;
         }
         else if(picks[2] > 0){
-            total_fatigue += chunk.dia * 25 + chunk.iron * 5 + chunk.stone * 1;
+            ans += s.dia*25 + s.iron*5 + s.stone;
             picks[2]--;
         }
     }
-    
-    return total_fatigue;
+    return ans;
 }
+
+/* 1트 */
+// struct MineralChunk{
+//     int dia, iron, stone;
+// };
+
+// bool compareChunks(const MineralChunk& a, const MineralChunk& b){   // 내림차순 정렬
+//     if(a.dia != b.dia){
+//         return a.dia > b.dia;
+//     }
+//     if(a.iron != b.iron){
+//         return a.iron > b.iron;
+//     }
+//     return a.stone > b.stone;
+// }
+
+// int solution(vector<int> picks, vector<string> minerals) {
+//     int total_fatigue = 0;
+//     int total_picks = picks[0] + picks[1] + picks[2];
+    
+//     vector<MineralChunk> chunks;
+    
+//     // 1. 광물 묶음(chunk) 생성 
+//     for(int i=0; i<minerals.size() && total_picks > 0; i+=5){
+//         MineralChunk chunk = {0, 0, 0};
+        
+//         for(int j=0; j<5 && i+j < minerals.size(); j++){
+//             string mineral = minerals[i+j];
+//             if(mineral == "diamond")    chunk.dia++;
+//             else if(mineral == "iron")  chunk.iron++;
+//             else if(mineral == "stone") chunk.stone++;
+//         }
+        
+//         chunks.emplace_back(chunk);
+//         total_picks--;
+//     }
+    
+//     // 2. 비싼 광물 순으로 정렬
+//     sort(chunks.begin(), chunks.end(), compareChunks);
+    
+//     // 3. 곡괭이 배정 및 피로도 계산
+//     for(const auto& chunk : chunks){
+//         if(picks[0] > 0){   // 다이아 곡괭이
+//             total_fatigue += chunk.dia * 1 + chunk.iron * 1 + chunk.stone * 1;
+//             picks[0]--;
+//         }
+//         else if(picks[1] > 0){  // 철 곡괭이
+//             total_fatigue += chunk.dia * 5 + chunk.iron * 1 + chunk.stone * 1;
+//             picks[1]--;
+//         }
+//         else if(picks[2] > 0){
+//             total_fatigue += chunk.dia * 25 + chunk.iron * 5 + chunk.stone * 1;
+//             picks[2]--;
+//         }
+//     }
+    
+//     return total_fatigue;
+// }
