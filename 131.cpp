@@ -1,4 +1,4 @@
-// 131. N-Queen (backtracking) / 너무 유명한 문제... bool 로 체크하는 방법도 확인하기
+// 131. N-Queen (backtracking) / 너무 유명한 문제... bool 로 체크하는 방법도 확인하기 (2트 실패?)
 // https://school.programmers.co.kr/learn/courses/30/lessons/12952
 #include <string>
 #include <vector>
