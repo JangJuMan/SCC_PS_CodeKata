@@ -1,4 +1,4 @@
-// 141. 당구연습 / re.. 반사는 생각 못했네,, 중점 좌표 찾았었는데
+// 141. 당구연습 / re.. 반사는 생각 못했네,, 중점 좌표 찾았었는데 (2트 완료)
 // https://school.programmers.co.kr/learn/courses/30/lessons/169198
 #include <string>
 #include <vector>
