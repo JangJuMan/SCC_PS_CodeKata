@@ -1,4 +1,4 @@
-// 147. 가장 먼 노드(bfs) / 풀었지만.. 음 re?
+// 147. 가장 먼 노드(bfs) / 풀었지만.. 음 re? (2트 성공)
 // https://school.programmers.co.kr/learn/courses/30/lessons/49189
 #include <string>
 #include <vector>
@@ -8,36 +8,72 @@
 
 using namespace std;
 
-/* 답안 정리 */
-int solution(int n, vector<vector<int>> edge){
+/* 2트 성공 */
+int solution(int n, vector<vector<int>> edge) {
+    int ans = 0, maxDist = 0;
+    vector<int> dist(n+1, -1);
     vector<vector<int>> graph(n+1);
+    queue<int> q;
+    
     for(const auto& e : edge){
-        int from = e[0], to = e[1];
+        int from=e[0], to=e[1];
         graph[from].emplace_back(to);
         graph[to].emplace_back(from);
     }
     
-    vector<int> dist(n+1, -1);
-    queue<int> q;
+    q.emplace(1);
     dist[1] = 0;
-    q.push(1);
     while(!q.empty()){
         int cur = q.front();
         q.pop();
-        for(int next : graph[cur]){
+        
+        for(const int next : graph[cur]){
             if(dist[next] == -1){
                 dist[next] = dist[cur] + 1;
                 q.emplace(next);
+                maxDist = max(maxDist, dist[next]);
             }
         }
     }
-    int maxDist = *max_element(dist.begin(), dist.end());    // O(n)
-    int count = 0;
+    
     for(int i=1; i<=n; i++){
-        if(dist[i] == maxDist) count++;
+        if(dist[i] == maxDist){
+            ans++;
+        }
     }
-    return count;
+    return ans;
 }
+
+/* 답안 정리 */
+// int solution(int n, vector<vector<int>> edge){
+//     vector<vector<int>> graph(n+1);
+//     for(const auto& e : edge){
+//         int from = e[0], to = e[1];
+//         graph[from].emplace_back(to);
+//         graph[to].emplace_back(from);
+//     }
+    
+//     vector<int> dist(n+1, -1);
+//     queue<int> q;
+//     dist[1] = 0;
+//     q.push(1);
+//     while(!q.empty()){
+//         int cur = q.front();
+//         q.pop();
+//         for(int next : graph[cur]){
+//             if(dist[next] == -1){
+//                 dist[next] = dist[cur] + 1;
+//                 q.emplace(next);
+//             }
+//         }
+//     }
+//     int maxDist = *max_element(dist.begin(), dist.end());    // O(n)
+//     int count = 0;
+//     for(int i=1; i<=n; i++){
+//         if(dist[i] == maxDist) count++;
+//     }
+//     return count;
+// }
 
 /* 내 풀이 */
 // int solution(int n, vector<vector<int>> edge) {
